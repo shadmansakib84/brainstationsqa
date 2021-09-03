@@ -1,356 +1,108 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
+//main
 
-public class test {
 
-	public static void main(String[] args) throws InterruptedException {
-		// TODO Auto-generated method stub
-		
-		System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		
-		driver.get("http://automationpractice.com/index.php");
-		System.out.println(driver.getTitle());
-		
-		
-		Thread.sleep(1000);
-		
-		String Actual = driver.getTitle();
-		
-		
-		
-        String Expected = "My Store";
+import java.util.*;
+import java.lang.*;
+import java.io.*;
 
-        if (Actual.equals(Expected)) {
-                   System.out.println("Test Passed!");
-        } else {
-                   System.out.println("Test Failed");
+
+class Main {
+    // public static void main(String[] args) {
+    //     // Scanner sc= new Scanner(System.in); 
+    //     // System.out.print("Enter total number of students: ");  
+    //     // int a= sc.nextInt(); 
+    //     // System.out.println(a);
+    //     //  System.out.print("Enter students information (ID NAME CGPA): ");  
+    //     // String b= sc.nextLine(); 
+    //     // System.out.println(b);
+    // }
+    public static void main(String[] args) 
+    {
+        Scanner sc= new Scanner(System.in); 
+        System.out.print("Enter total number of students: ");  
+        int totalNumberOfStudents= sc.nextInt(); 
+        System.out.print("Enter students information (ID NAME CGPA): *followed by space \n");  
+        sc.nextLine();
+        String studentListStr= sc.nextLine();  
+        
+        ArrayList<Student> students = getUnsortedEmployeeList(totalNumberOfStudents,studentListStr);
+        //var ss = "33 Rumpa 3.68 85 Ashis 3.85 56 Samiha 3.75 19 Samara 3.75 22 Fahim 3.76";
+        Collections.sort(students, 
+             Comparator.comparing(Student::getCGPA).reversed()
+            .thenComparing(Student::getName)
+            .thenComparing(Student::getId));
+         
+        System.out.println(students);
+    }
+    private static ArrayList<Student> getUnsortedEmployeeList(int studentCount,String inputString) 
+    {
+        ArrayList<Student> list = new ArrayList<>();
+        try{
+            String[] inputList = inputString.split(" ");
+            for(int i = 0; i < studentCount*3; i+=3) 
+            {
+                Student e = new Student();
+                e.setId(Integer.parseInt(inputList[i]) );
+                e.setName(inputList[i+1]);
+                e.setCGPA(Float.parseFloat(inputList[i+2]));
+                list.add(e);
+                //validate each property here by separate functions, if validation fails stop the loop and console.write the validation message
+            }
         }
-
-        //driver.close();
-        
-        
-        Thread.sleep(1000);
-    
-		
-		driver.manage().window().maximize();
-		
-		
-		
-		
-		WebElement Signinbtn = driver.findElement(By.className("login"));
-		Signinbtn.click();
-		
-		//user1Reg
-		
-		
-		WebElement emailaddressfield = driver.findElement(By.id("email_create"));
-		emailaddressfield.sendKeys("shadmantest55@test.com");
-		
-		WebElement submitbtn = driver.findElement(By.id("SubmitCreate"));
-		submitbtn.click();
-		
-		
-		Thread.sleep(10000);
-		
-		WebElement radiobtn = driver.findElement(By.id("id_gender2"));
-		radiobtn.click();
-		
-		
-		WebElement firstname = driver.findElement(By.xpath("//*[@id=\"customer_firstname\"]"));
-		firstname.sendKeys("Shadman");
-		
-		
-		
-		
-		WebElement lastname = driver.findElement(By.id("customer_lastname"));
-		lastname.sendKeys("Sakib");
-		
-		
-		WebElement password = driver.findElement(By.id("passwd"));
-		password.sendKeys("Sakib");
-		
-		
-		WebElement dropdowndays = driver.findElement(By.id("days"));
-		Select dropdown = new Select(dropdowndays);
-		dropdown.selectByIndex(4);
-		
-		
-		WebElement dropdownmonths = driver.findElement(By.id("months"));
-		Select dropdown1 = new Select(dropdownmonths);
-		dropdown1.selectByIndex(8);
-		
-		
-		WebElement dropdownyears = driver.findElement(By.id("years"));
-		Select dropdown2 = new Select(dropdownyears);
-		dropdown2.selectByIndex(12);
-		
-		
-		
-		WebElement checkbox = driver.findElement(By.id("optin"));
-		checkbox.click();
-		
-		
-		
-		WebElement company = driver.findElement(By.id("company"));
-		company.sendKeys("BrainStation");
-		
-		
-		WebElement address = driver.findElement(By.id("address1"));
-		address.sendKeys("Dhanmondi13");
-		
-		
-		WebElement address2 = driver.findElement(By.id("address2"));
-		address2.sendKeys("house11/a");
-		
-		
-		WebElement city = driver.findElement(By.id("city"));
-		city.sendKeys("Dhaka");
-		
-		
-		WebElement state = driver.findElement(By.id("id_state"));
-		Select dropdown3 = new Select(state);
-		dropdown3.selectByIndex(2);
-		
-		
-		WebElement postcode = driver.findElement(By.id("postcode"));
-		postcode.sendKeys("12095");
-		
-		WebElement addinfo = driver.findElement(By.id("other"));
-		addinfo.sendKeys("hello");
-		
-		WebElement hp = driver.findElement(By.id("phone"));
-		hp.sendKeys("85485478");
-		
-		
-		WebElement mp = driver.findElement(By.id("phone_mobile"));
-		mp.sendKeys("85485478");
-		
-		
-		WebElement alias = driver.findElement(By.id("alias"));
-		alias.sendKeys("mohakhali");
-		
-		
-		WebElement Registerbtn = driver.findElement(By.id("submitAccount"));
-		Registerbtn.click();
-		
-		WebElement logout = driver.findElement(By.className("logout"));
-		logout.click();
-	
-		
-		
-		//user 2 reg
-		
-		WebElement emailaddressfield2 = driver.findElement(By.id("email_create"));
-		emailaddressfield2.sendKeys("shadmantest56@test.com");
-		
-		WebElement submitbtn2 = driver.findElement(By.id("SubmitCreate"));
-		submitbtn2.click();
-		
-		
-        Thread.sleep(10000);
-		
-		WebElement radiobtn2 = driver.findElement(By.id("id_gender2"));
-		radiobtn2.click();
-		
-		
-		WebElement firstname2 = driver.findElement(By.xpath("//*[@id=\"customer_firstname\"]"));
-		firstname2.sendKeys("Shadman");
-		
-		
-		WebElement lastname2 = driver.findElement(By.id("customer_lastname"));
-		lastname2.sendKeys("Sakib");
-		
-		
-		WebElement password2 = driver.findElement(By.id("passwd"));
-		password2.sendKeys("Sakib");
-		
-		
-		WebElement dropdowndays22 = driver.findElement(By.id("days"));
-		Select dropdown22 = new Select(dropdowndays22);
-		dropdown22.selectByIndex(5);
-		
-		
-		WebElement dropdownmonths23 = driver.findElement(By.id("months"));
-		Select dropdown23 = new Select(dropdownmonths23);
-		dropdown23.selectByIndex(8);
-		
-		
-		WebElement dropdownyears24 = driver.findElement(By.id("years"));
-		Select dropdown24 = new Select(dropdownyears24);
-		dropdown24.selectByIndex(5);
-		
-		
-		
-		WebElement checkbox2 = driver.findElement(By.id("optin"));
-		checkbox2.click();
-		
-		
-		WebElement company2 = driver.findElement(By.id("company"));
-		company2.sendKeys("BrainStation");
-		
-		
-		WebElement address3 = driver.findElement(By.id("address1"));
-		address3.sendKeys("Dhanmondi13");
-		
-		
-		WebElement address4 = driver.findElement(By.id("address2"));
-		address4.sendKeys("house11/a");
-		
-		
-		WebElement city2 = driver.findElement(By.id("city"));
-		city2.sendKeys("Dhaka");
-		
-		
-		WebElement state45 = driver.findElement(By.id("id_state"));
-		Select dropdown34 = new Select(state45);
-		dropdown34.selectByIndex(2);
-		
-		
-		WebElement postcode2 = driver.findElement(By.id("postcode"));
-		postcode2.sendKeys("12095");
-		
-		WebElement addinfo2 = driver.findElement(By.id("other"));
-		addinfo2.sendKeys("hello");
-		
-		WebElement hp2 = driver.findElement(By.id("phone"));
-		hp2.sendKeys("85485478");
-		
-		
-		WebElement mp2 = driver.findElement(By.id("phone_mobile"));
-		mp2.sendKeys("85485478");
-		
-		
-		WebElement alias2 = driver.findElement(By.id("alias"));
-		alias2.sendKeys("mohakhali");
-		
-		
-		WebElement Registerbtn2 = driver.findElement(By.id("submitAccount"));
-		Registerbtn2.click();
-		
-		
-		
-		Thread.sleep(1000);
-		
-		
-		WebElement dress = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/header[1]/div[3]/div[1]/div[1]/div[6]/ul[1]/li[2]/a[1]"));
-		dress.click();
-		
-		
-		Thread.sleep(1000);
-		
-		
-		
-		
-		Actions actions = new Actions(driver);
-    	WebElement PrintedDress = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[2]/ul[1]/li[1]/div[1]/div[2]/h5[1]/a[1]"));
-    	actions.moveToElement(PrintedDress).perform();
-    	
-    	
-    	WebElement AddCart = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[2]/ul[1]/li[1]/div[1]/div[2]/div[2]/a[1]/span[1]"));
-    	AddCart.click();
-    	
-    	
-    	
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	WebElement BackToShopping = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/header[1]/div[3]/div[1]/div[1]/div[4]/div[1]/div[2]/div[4]/span[1]/span[1]"));
-    	BackToShopping.click();
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	
-    	Actions actions1 = new Actions(driver);
-    	WebElement PrintedDress2 = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[2]/ul[1]/li[2]/div[1]/div[2]/h5[1]/a[1]"));
-    	actions1.moveToElement(PrintedDress2).perform();
-    	
-    	
-    	WebElement AddCart2 = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[2]/ul[1]/li[2]/div[1]/div[2]/div[2]/a[1]/span[1]"));
-    	AddCart2.click();
-    	
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	WebElement Checkoutbtn = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/header[1]/div[3]/div[1]/div[1]/div[4]/div[1]/div[2]/div[4]/a[1]/span[1]"));
-    	Checkoutbtn.click();
-    	
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	WebElement Cart = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[1]/header[1]/div[3]/div[1]/div[1]/div[3]/div[1]/a[1]/b[1]"));
-    	Cart.click();
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	
-    	WebElement ProceedCheckout = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/p[2]/a[1]/span[1]"));
-    	ProceedCheckout.click();
-    	
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	WebElement ProceedCheckout2 = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/form[1]/p[1]/button[1]/span[1]"));
-    	ProceedCheckout2.click();
-    	
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	WebElement termsCheck = driver.findElement(By.id("cgv"));
-    	termsCheck.click();
-    	
-    	
-    	WebElement ProceedCheckout3 = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[1]/form[1]/p[1]/button[1]/span[1]"));
-    	ProceedCheckout3.click();
-    	
-    	
-    	WebElement proceedpayment = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/div[1]/div[3]/div[1]/div[1]/p[1]/a[1]/span[1]"));
-    	proceedpayment.click();
-    	
-    	Thread.sleep(2000);
-    	
-    	
-    	WebElement confirmorder = driver.findElement(By.xpath("/html[1]/body[1]/div[1]/div[2]/div[1]/div[3]/div[1]/form[1]/p[1]/button[1]/span[1]"));
-    	confirmorder.click();
-    	
-
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-    	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		}
-
+        catch(Exception e){
+            System.out.println("Invalid input provided! Please provide valid input.");
+        }
+        return list;
+    }
 }
 
 
 
+
+//student
+
+
+public class Student {
+  
+    private Integer id;
+    private String name;
+    private Float cgpa;
+     
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Float getCGPA() {
+        return cgpa;
+    }
+    public void setCGPA(Float cgpa) {
+        this.cgpa = cgpa;
+    }
+ 
+    @Override
+    public String toString() {
+        return "Student [Name =" + name + "]";
+    }
+ 
+    // @Override
+    // public int compareTo(Student o) {
+    //     return this.getId().compareTo(o.getId());
+    // }
+    // @Override public int compare(final Student record1, final Student record2) {
+    //     int c;
+    //     c = record1.getCGPA().compareTo(record2.getCGPA());
+    //     if (c == 0)
+    //        c = record1.getName().compareTo(record2.getName());
+    //     if (c == 0)
+    //        c = record1.getId().compareTo(record2.getId());
+    //     return c;
+    // }
+}
